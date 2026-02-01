@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 
 from data.loader import MnistDataloader 
-from selectors import FullSelector, RandomSelector, PCAKMeansSelector
+from selector import BaselineSelector, RandomSelector, ClusterSelector
 
 # ========================================================================
 # 1-NN Classifier
@@ -172,12 +172,12 @@ def run_comparison_experiment(X_train, X_test, y_train, y_test, num_prototypes=5
     print(f"\n[1/3] Initializing selectors (prototypes per class: {num_prototypes})...")
     
     selectors = {
-        'Full_Baseline': FullSelector(),
+        'Baseline': BaselineSelector(),
         'Random_Selection': RandomSelector(
             num_prototypes_per_class=num_prototypes,
             random_state=42
         ),
-        'PCA_KMeans': PCAKMeansSelector(
+        'Cluster': ClusterSelector(
             num_prototypes_per_class=num_prototypes,
             random_state=42,
             pca_components=100
@@ -206,12 +206,12 @@ def run_comparison_experiment(X_train, X_test, y_train, y_test, num_prototypes=5
     print("\n" + "="*70)
     print("EXPERIMENT SUMMARY")
     print("="*70)
-    baseline_time = results['Full_Baseline']['prediction_time']
+    baseline_time = results['Baseline']['prediction_time']
     for name, result in results.items():
         print(f"\n{name}:")
         print(f"  - Accuracy: {result['accuracy']:.4f}")
         print(f"  - Prediction Time: {result['prediction_time']:.2f}s")
-        if name != 'Full_Baseline':
+        if name != 'Baseline':
             speedup = baseline_time / result['prediction_time']
             print(f"  - Speedup vs Baseline: {speedup:.2f}x")
     
@@ -238,7 +238,7 @@ def run_parameter_tuning(X_train, X_test, y_train, y_test):
         print(f"{'='*60}")
         
         # 创建选择器和分类器
-        selector = PCAKMeansSelector(
+        selector = ClusterSelector(
             num_prototypes_per_class=count,
             random_state=42,
             pca_components=100
@@ -291,10 +291,10 @@ def main():
     args = parser.parse_args()
     
     # 数据文件路径
-    training_images_filepath = 'data/train-images-idx3-ubyte'
-    training_labels_filepath = 'data/train-labels-idx1-ubyte'
-    test_images_filepath = 'data/t10k-images-idx3-ubyte'
-    test_labels_filepath = 'data/t10k-labels-idx1-ubyte'
+    training_images_filepath = 'data/train-images.idx3-ubyte'
+    training_labels_filepath = 'data/train-labels.idx1-ubyte'
+    test_images_filepath = 'data/t10k-images.idx3-ubyte'
+    test_labels_filepath = 'data/t10k-labels.idx1-ubyte'
     
     # 加载数据
     print("\n" + "="*70)

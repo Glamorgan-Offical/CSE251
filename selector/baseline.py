@@ -2,7 +2,7 @@ import numpy as np
 from .base import BaseSelector
 
 
-class FullSelector(BaseSelector):
+class BaselineSelector(BaseSelector):
     
     def __init__(self):
         super().__init__(num_prototypes_per_class=None, random_state=None)

@@ -1,11 +1,11 @@
 from .base import BaseSelector
-from .baseline import FullSelector
+from .baseline import BaselineSelector
 from .random import RandomSelector
 from .cluster import ClusterSelector
 
 __all__ = [
     'BaseSelector',
-    'FullSelector', 
+    'BaselineSelector', 
     'RandomSelector',
     'ClusterSelector'
 ]
