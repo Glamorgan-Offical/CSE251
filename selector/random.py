@@ -16,7 +16,7 @@ class RandomSelector(BaseSelector):
             class_mask = (y_train == class_id)
             X_class = X_train[class_mask]
             
-            num_select = min(self.num_prototypes_per_class, len(X_class))
+            num_select = min(self.n_cluster, len(X_class))
             indices = np.random.choice(len(X_class), num_select, replace=False)
             
             prototypes.append(X_class[indices])

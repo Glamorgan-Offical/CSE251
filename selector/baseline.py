@@ -6,7 +6,7 @@ from .base import BaseSelector
 class BaselineSelector(BaseSelector):
     
     def __init__(self):
-        super().__init__(num_prototypes_per_class=None, random_state=None)
+        super().__init__(n_cluster=None, random_state=None)
     
     def select_prototypes(self, X_train, y_train):
         return X_train, y_train

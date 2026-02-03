@@ -4,8 +4,8 @@ import time
 
 class BaseSelector(ABC):
     
-    def __init__(self, num_prototypes_per_class=50, random_state=114514):
-        self.num_prototypes_per_class = num_prototypes_per_class
+    def __init__(self, n_cluster=50, random_state=114514):
+        self.n_cluster = n_cluster
         self.random_state = random_state
         self.prototypes = None
         self.labels = None
@@ -14,7 +14,7 @@ class BaseSelector(ABC):
     @abstractmethod
     def select_prototypes(self, X_train, y_train):
         """
-        Abstract method to select a representative subset of prototypes from the training set.
+        Abstract method to select prototypes from the training set.
 
         Args:
             X_train: The input training samples.
@@ -35,7 +35,7 @@ class BaseSelector(ABC):
     def get_info(self):
         return {
             'name': self.__class__.__name__,
-            'num_prototypes': len(self.prototypes) if self.prototypes is not None else 0,
-            'num_prototypes_per_class': self.num_prototypes_per_class,
+            'n_prototypes': len(self.prototypes) if self.prototypes is not None else 0,
+            'n_cluster': self.n_cluster,
             'time': self.time,
         }

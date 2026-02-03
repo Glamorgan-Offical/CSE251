@@ -42,12 +42,12 @@ def train(X_train, y_train, X_test, y_test, args, seed):
         selector = BaselineSelector()
     elif args.selector == 'random':
         selector = RandomSelector(
-            num_prototypes_per_class=args.num_prototypes,
+            n_cluster=args.n_prototypes,
             random_state=seed
         )
     elif args.selector == 'cluster':
         selector = ClusterSelector(
-            num_prototypes_per_class=args.num_prototypes,
+            n_cluster=args.n_prototypes,
             random_state=seed,
             pca_components=args.pca_components
         )
@@ -71,7 +71,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--selector', type=str, required=True,
                          choices=['baseline', 'random', 'cluster'])
-    parser.add_argument('--num_prototypes', type=int, default=50,
+    parser.add_argument('--n_prototypes', type=int, default=50,
                          help='Prototypes Per Class')
     parser.add_argument('--pca_components', type=int, default=100)
     parser.add_argument('--n_runs', type=int, default=1,
@@ -98,19 +98,19 @@ def main():
     y_train = np.array(y_train)
     y_test = np.array(y_test)
     
+    # Baseline
     if args.selector == 'baseline':
-        args.n_runs = 1
+        args.n_runs = 1 # Since no random state
 
+    # Multiple Experiments to get the Mean
     accuracies = []
     train_times = []
     pred_times = []
     
-    print(f"Running {args.n_runs} experiments (M={args.num_prototypes*10} total)...")
+    print(f"Running {args.n_runs} experiments, M={args.n_prototypes*10}")
     
     for i in range(args.n_runs):
-        seed = 114514 + i
-        print(f"  Run {i+1}/{args.n_runs} (seed={seed})...", end="", flush=True)
-        
+        seed = 114514 + i # Different Random Seed for each Epoch
         acc, t_train, t_pred = train(X_train, y_train, X_test, y_test, args, seed)
         
         accuracies.append(acc)
@@ -124,31 +124,29 @@ def main():
     # Calculate Confidence Interval
     if args.n_runs > 1:
         se = np.std(accuracies, ddof=1) / np.sqrt(args.n_runs)
-        # t-distribution critical value for 95% CI
-        t_crit = stats.t.ppf(0.975, df=args.n_runs-1)
-        ci_95 = t_crit * se
+        ci = stats.t.ppf(0.975, df=args.n_runs-1) * se # 97.5% +- 2.5%
     else:
-        ci_95 = 0.0
+        ci = 0.0
 
     # Save
-    os.makedirs('results_final', exist_ok=True)
+    os.makedirs('results', exist_ok=True)
     if args.selector == 'cluster':
-        fname = f"results_final/{args.selector}_n{args.num_prototypes}_pca{args.pca_components}.txt"
+        fname = f"results/{args.selector}_n{args.n_prototypes}_pca{args.pca_components}.txt"
     else:
-        fname = f"results_final/{args.selector}_n{args.num_prototypes}.txt"
+        fname = f"results/{args.selector}_n{args.n_prototypes}.txt"
         
     with open(fname, 'w') as f:
         f.write(f"Selector: {args.selector}\n")
-        f.write(f"Prototypes per Class: {args.num_prototypes}\n")
-        f.write(f"Total Prototypes (M): {args.num_prototypes * 10}\n")
+        f.write(f"Prototypes per Class: {args.n_prototypes}\n")
+        f.write(f"M = {args.n_prototypes * 10}\n")
         f.write(f"Runs: {args.n_runs}\n")
-        f.write(f"Mean Accuracy: {mean_acc:.5f}\n")
-        f.write(f"95% CI: {ci_95:.5f}\n")
+        f.write(f"Mean Acc: {mean_acc:.5f}\n")
+        f.write(f"95% CI: {ci:.5f}\n")
         f.write(f"Mean Prediction Time: {mean_time:.4f}s\n")
-        f.write(f"Raw Accuracies: {accuracies}\n")
+        f.write(f"Raw Acc: {accuracies}\n")
     
     print(f"\nFinal Result (Average over {args.n_runs} runs):")
-    print(f"Accuracy: {mean_acc:.4f} ± {ci_95:.4f}")
+    print(f"Acc: {mean_acc:.4f} ± {ci:.4f}")
     print(f"Time: {mean_time:.2f}s")
 
 if __name__ == "__main__":
