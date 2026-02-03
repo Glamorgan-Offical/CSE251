@@ -1,0 +1,6 @@
+Selector: random
+Num Prototypes per Class: 300
+Accuracy: 0.9243
+Training Time: 0.0545s
+Prediction Time: 29.76s
+Time per Sample: 2.98ms

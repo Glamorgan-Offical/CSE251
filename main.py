@@ -128,6 +128,8 @@ def main():
     classifier = OneNNClassifier(selector)
     classifier.fit(X_train, y_train)
     results = evaluate(classifier, X_test, y_test, verbose=True)
+
+    info = classifier.get_info()
     
     # Save
     os.makedirs('results', exist_ok=True)
@@ -141,6 +143,8 @@ def main():
         if args.selector == 'cluster':
             f.write(f"PCA Components: {args.pca_components}\n")
         f.write(f"Accuracy: {results['accuracy']:.4f}\n")
+        if info.get("time") is not None:
+            f.write(f"Training Time: {info["time"]:.4f}s\n")
         f.write(f"Prediction Time: {results['prediction_time']:.2f}s\n")
         f.write(f"Time per Sample: {results['avg_time_per_sample']*1000:.2f}ms\n")
     

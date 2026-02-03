@@ -8,6 +8,7 @@ python main.py --selector baseline
 
 # Random Selection
 echo "Random Selection"
+
 for n in 10 50 100 200 250 300
 do
     echo "Random: $n prototypes/class"
