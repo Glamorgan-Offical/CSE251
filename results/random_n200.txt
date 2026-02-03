@@ -1,0 +1,8 @@
+Selector: random
+Prototypes per Class: 200
+M = 2000
+Runs: 5
+Mean Acc: 0.91166
+95% CI: 0.00371
+Mean Prediction Time: 13.5791s
+Raw Acc: [0.9097, 0.91, 0.9141, 0.9156, 0.9089]

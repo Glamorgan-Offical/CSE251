@@ -1,0 +1,8 @@
+Selector: cluster
+Prototypes per Class: 500
+M = 5000
+Runs: 5
+Mean Acc: 0.94252
+95% CI: 0.00117
+Mean Prediction Time: 50.9060s
+Raw Acc: [0.9429, 0.942, 0.944, 0.942, 0.9417]
