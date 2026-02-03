@@ -12,7 +12,7 @@ echo "Random Selection"
 for n in 10 50 100 200 500 1000
 do
     echo "Random: $n prototypes/class"
-    python main.py --selector random --n_prototypes $n
+    python main.py --selector random --n_prototypes $n --n_runs 5
 done
 
 # Cluster Selection
@@ -22,7 +22,7 @@ do
     for pca in 10 20 50 100 150
     do
         echo "Cluster: $n prototypes/class, PCA=$pca"
-        python main.py --selector cluster --n_prototypes $n --pca_components $pca
+        python main.py --selector cluster --n_prototypes $n --pca_components $pca --n_runs 5
     done
 done
 

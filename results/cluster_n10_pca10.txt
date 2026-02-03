@@ -1,7 +1,0 @@
-Selector: cluster
-Num Prototypes per Class: 10
-PCA Components: 10
-Accuracy: 0.8075
-Training Time: 3.8797s
-Prediction Time: 0.70s
-Time per Sample: 0.07ms

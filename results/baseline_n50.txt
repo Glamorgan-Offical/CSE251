@@ -1,6 +1,0 @@
-Selector: baseline
-Num Prototypes per Class: 50
-Accuracy: 0.9691
-Training Time: 0.0000s
-Prediction Time: 742.79s
-Time per Sample: 74.28ms
