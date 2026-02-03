@@ -131,10 +131,15 @@ def main():
     
     # Save
     os.makedirs('results', exist_ok=True)
-    result_file = f"results/{args.selector}_n{args.num_prototypes}.txt"
+    if args.selector == 'cluster':
+        result_file = f"results/{args.selector}_n{args.num_prototypes}_pca{args.pca_components}.txt"
+    else:
+        result_file = f"results/{args.selector}_n{args.num_prototypes}.txt"
     with open(result_file, 'w') as f:
         f.write(f"Selector: {args.selector}\n")
         f.write(f"Num Prototypes per Class: {args.num_prototypes}\n")
+        if args.selector == 'cluster':
+            f.write(f"PCA Components: {args.pca_components}\n")
         f.write(f"Accuracy: {results['accuracy']:.4f}\n")
         f.write(f"Prediction Time: {results['prediction_time']:.2f}s\n")
         f.write(f"Time per Sample: {results['avg_time_per_sample']*1000:.2f}ms\n")
