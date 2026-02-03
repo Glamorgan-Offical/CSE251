@@ -1,3 +1,4 @@
+# Created Followed by the Instruction of MNIST dataset at:
 # https://www.kaggle.com/code/hojjatk/read-mnist-dataset
 
 import struct

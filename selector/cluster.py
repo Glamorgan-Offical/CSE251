@@ -3,7 +3,8 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from .base import BaseSelector
 
-
+# -- Cluster Selector --
+# PCA dimensionality reduction + K-means clustering for prototype selection
 class ClusterSelector(BaseSelector):
     
     def __init__(self, num_prototypes_per_class=50, random_state=114514, pca_components=100):
@@ -23,10 +24,10 @@ class ClusterSelector(BaseSelector):
         
         Returns:
             prototypes: 选中的原型（原始784维空间）
-            prototype_labels: 原型标签
+            labels: 原型标签
         """
         prototypes = []
-        prototype_labels = []
+        labels = []
         num_classes = len(np.unique(y_train))
         
         for class_id in range(num_classes):
@@ -54,6 +55,6 @@ class ClusterSelector(BaseSelector):
                 distances = np.linalg.norm(X_class_reduced - center, axis=1)
                 closest_idx = np.argmin(distances)
                 prototypes.append(X_class[closest_idx])  # 存储原始784维样本
-                prototype_labels.append(class_id)
+                labels.append(class_id)
         
-        return np.array(prototypes), np.array(prototype_labels)
+        return np.array(prototypes), np.array(labels)

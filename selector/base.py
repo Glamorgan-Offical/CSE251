@@ -8,8 +8,8 @@ class BaseSelector(ABC):
         self.num_prototypes_per_class = num_prototypes_per_class
         self.random_state = random_state
         self.prototypes = None
-        self.prototype_labels = None
-        self.selection_time = None
+        self.labels = None
+        self.time = None
         
     @abstractmethod
     def select_prototypes(self, X_train, y_train):
@@ -22,14 +22,14 @@ class BaseSelector(ABC):
 
         Returns:
             prototypes: A subset of X_train chosen as prototypes.
-            prototype_labels: The labels corresponding to the selected prototypes.
+            labels: The labels corresponding to the selected prototypes.
         """
         pass
     
     def fit(self, X_train, y_train):
         start_time = time.time()
-        self.prototypes, self.prototype_labels = self.select_prototypes(X_train, y_train)
-        self.selection_time = time.time() - start_time
+        self.prototypes, self.labels = self.select_prototypes(X_train, y_train)
+        self.time = time.time() - start_time
         return self
     
     def get_info(self):
@@ -37,5 +37,5 @@ class BaseSelector(ABC):
             'name': self.__class__.__name__,
             'num_prototypes': len(self.prototypes) if self.prototypes is not None else 0,
             'num_prototypes_per_class': self.num_prototypes_per_class,
-            'selection_time': self.selection_time,
+            'time': self.time,
         }

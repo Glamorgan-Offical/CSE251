@@ -1,7 +1,8 @@
 import numpy as np
 from .base import BaseSelector
 
-
+# -- Baseline Selector --
+# Using all training set data as prototypes
 class BaselineSelector(BaseSelector):
     
     def __init__(self):
