@@ -74,7 +74,7 @@ def main():
     parser.add_argument('--n_prototypes', type=int, default=100,
                          help='Prototypes Per Class')
     parser.add_argument('--pca_components', type=int, default=100)
-    parser.add_argument('--n_runs', type=int, default=1,
+    parser.add_argument('--n_runs', type=int, default=5,
                          help='Number of repetitions')
     
     args = parser.parse_args()
@@ -101,6 +101,7 @@ def main():
     # Baseline
     if args.selector == 'baseline':
         args.n_runs = 1 # Since no random state
+        args.n_prototypes = 6000
 
     # Multiple Experiments to get the Mean
     accuracies = []

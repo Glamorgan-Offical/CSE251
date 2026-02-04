@@ -53,6 +53,8 @@ python main.py --selector random
 python main.py --selector cluster
 ```
 
+> **Note:** When executing the baseline experiment, the console output may display a default prototype count (e.g., `M=1000`). This is merely a display artifact of the default argument values. In practice, the `BaselineSelector` ignores this parameter and strictly utilizes the **full training dataset** ($N=60,000$).
+
 If you need to run specific experimental configurations, using the command line interface
 
 ```bash
