@@ -71,7 +71,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--selector', type=str, required=True,
                          choices=['baseline', 'random', 'cluster'])
-    parser.add_argument('--n_prototypes', type=int, default=50,
+    parser.add_argument('--n_prototypes', type=int, default=100,
                          help='Prototypes Per Class')
     parser.add_argument('--pca_components', type=int, default=100)
     parser.add_argument('--n_runs', type=int, default=1,
